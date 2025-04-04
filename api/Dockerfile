@@ -2,7 +2,7 @@ FROM python:3.11-slim
 
 WORKDIR /api
 
-# install required packages for system --> MUST RUN THIS FOR THIS TO WORK!
+## install required packages for system --> MUST RUN THIS FOR THIS TO WORK!
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y gcc default-libmysqlclient-dev pkg-config \

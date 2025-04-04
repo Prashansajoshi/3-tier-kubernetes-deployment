@@ -22,7 +22,7 @@ show databases;
 # Pick our database
 use quote;
 
-# Show tables (shows quotes table)
+# Show tables (shows quotes table)  
 show tables;
 
 # Query the table (should see some data)
