@@ -23,17 +23,6 @@ spec:
                 name: mysql-secret
             - configMapRef:
                 name: mysql-config
-          # env:
-          #   # - name: MYSQL_HOST
-          #   #   value: mysql 
-          #   - name: MYSQL_USER
-          #     value: user
-          #   - name: MYSQL_PASSWORD
-          #     value: password
-          #   - name: MYSQL_DB
-          #     value: quotesdb
-          #   - name: MYSQL_HOST
-          #     value: mysql.database.svc.cluster.local
 
 ---
 apiVersion: v1
