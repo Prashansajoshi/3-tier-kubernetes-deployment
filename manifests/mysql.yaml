@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: database 
+spec:
+  serviceName: "mysql" 
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: prashansajoshi/quotes-db:latest 
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - secretRef:
+                name: mysql-secret
+            - configMapRef:
+                name: mysql-config
+          # env:
+          #   - name: MYSQL_ROOT_PASSWORD
+          #     value: root
+          #   - name: MYSQL_DATABASE
+          #     value: quotesdb
+          #   - name: MYSQL_USER
+          #     value: user
+          #   - name: MYSQL_PASSWORD
+          #     value: password
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+      terminationGracePeriodSeconds: 30 
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+        namespace: database 
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 10Gi 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql 
+  namespace: database 
+spec:
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306

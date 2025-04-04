@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quotes-frontend-deployment
+  namespace: frontend 
+spec:
+  replicas: 2 
+  selector:
+    matchLabels:
+      app: quotes-frontend
+  template:
+    metadata:
+      labels:
+        app: quotes-frontend
+    spec:
+      containers:
+        - name: quotes-frontend
+          image: prashansajoshi/quotes-frontend:v2 #budhaujjwal/docker-k8s:frontend-latest #prashansajoshi/quotes-frontend:latest 
+          ports:
+            - containerPort: 5002
+          env:
+          - name: API_URL
+            value: http://api.backend.svc.cluster.local:5001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quotes-frontend-service
+  namespace: frontend 
+spec:
+  selector:
+    app: quotes-frontend
+  ports:
+    - protocol: TCP
+      port: 5002
+      targetPort: 5002 
+  type: ClusterIP 
